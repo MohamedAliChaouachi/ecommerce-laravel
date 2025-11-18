@@ -12,10 +12,19 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'price',
+        'product_name',
+        'product_price',
         'quantity',
+        'subtotal',
     ];
 
+    protected $casts = [
+        'product_price' => 'float',
+        'quantity' => 'integer',
+        'subtotal' => 'float',
+    ];
+
+    // Relationships
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -24,5 +33,12 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    // Methods
+    public function calculateSubtotal()
+    {
+        $this->subtotal = $this->product_price * $this->quantity;
+        return $this->subtotal;
     }
 }

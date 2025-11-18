@@ -20,12 +20,18 @@ return new class extends Migration
 
         $table->foreignId('product_id')
               ->constrained()
-              ->onDelete('restrict'); // don't delete product if used in orders (optional)
-
-        $table->decimal('price', 10, 2);   // price at the moment of purchase
+              ->onDelete('restrict');
+        
+        // Store product details at time of purchase
+        $table->string('product_name');
+        $table->decimal('product_price', 10, 2);
         $table->unsignedInteger('quantity');
+        $table->decimal('subtotal', 10, 2);
 
         $table->timestamps();
+        
+        // Index for better performance
+        $table->index('order_id');
     });
 }
 
