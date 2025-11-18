@@ -1,0 +1,22 @@
+# E-Commerce Laravel Project Code Owners
+# Auto-request reviews from specific developers based on file paths
+
+# Backend ownership
+/app/Http/Controllers/ @MohamedAliChaouachi
+/app/Models/ @MohamedAliChaouachi
+/app/Services/ @MohamedAliChaouachi
+/database/migrations/ @MohamedAliChaouachi
+/database/seeders/ @MohamedAliChaouachi
+/routes/ @MohamedAliChaouachi
+/config/ @MohamedAliChaouachi
+
+# Frontend ownership - assign to your teammate
+# /resources/js/ @teammate-github-username
+# /resources/css/ @teammate-github-username
+# /resources/views/ @teammate-github-username
+
+# Shared files - both must approve
+/composer.json @MohamedAliChaouachi
+/package.json @MohamedAliChaouachi
+/.env.example @MohamedAliChaouachi
+/README.md @MohamedAliChaouachi
