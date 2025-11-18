@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const page = usePage();
+const cartCount = computed(() => page.props.cartCount || 0);
 </script>
 
 <template>
@@ -39,10 +41,32 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('products.index')"
+                                    :active="route().current('products.*')"
+                                >
+                                    Produits
+                                </NavLink>
                             </div>
                         </div>
 
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                        <div class="hidden sm:ms-6 sm:flex sm:items-center space-x-4">
+                            <!-- Cart Icon -->
+                            <Link
+                                :href="route('cart.index')"
+                                class="relative p-2 text-gray-700 hover:text-indigo-600 transition-colors"
+                            >
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                <span
+                                    v-if="cartCount > 0"
+                                    class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+                                >
+                                    {{ cartCount }}
+                                </span>
+                            </Link>
+
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
@@ -145,6 +169,26 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('products.index')"
+                            :active="route().current('products.*')"
+                        >
+                            Produits
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('cart.index')"
+                            :active="route().current('cart.*')"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span>Panier</span>
+                                <span
+                                    v-if="cartCount > 0"
+                                    class="bg-indigo-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center"
+                                >
+                                    {{ cartCount }}
+                                </span>
+                            </div>
                         </ResponsiveNavLink>
                     </div>
 

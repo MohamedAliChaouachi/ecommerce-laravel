@@ -20,6 +20,14 @@ class Product extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'price' => 'float',
+        'stock' => 'integer',
+        'is_active' => 'boolean',
+    ];
+
+    protected $appends = ['formatted_price'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
