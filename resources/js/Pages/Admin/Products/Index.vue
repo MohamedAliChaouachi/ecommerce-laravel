@@ -268,14 +268,17 @@ const getStockBadge = (stock) => {
                         </div>
                         <div>
                             <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                <Link
+                                <component
                                     v-for="link in products.links"
                                     :key="link.label"
+                                    :is="link.url ? Link : 'span'"
                                     :href="link.url"
                                     :class="[
                                         link.active
                                             ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+                                            : link.url
+                                            ? 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                                            : 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed',
                                         'relative inline-flex items-center px-4 py-2 border text-sm font-medium'
                                     ]"
                                     v-html="link.label"
