@@ -83,7 +83,8 @@ class ProductController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+            unset($validated['image']);
         }
 
         Product::create($validated);
@@ -135,10 +136,11 @@ class ProductController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+            if ($product->image_path) {
+                Storage::disk('public')->delete($product->image_path);
             }
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+            unset($validated['image']);
         }
 
         $product->update($validated);
@@ -153,8 +155,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         // Delete image if exists
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+        if ($product->image_path) {
+            Storage::disk('public')->delete($product->image_path);
         }
 
         $product->delete();
