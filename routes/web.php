@@ -25,6 +25,10 @@ Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
 
 // Authenticated routes
 Route::get('/dashboard', function () {
+    // Redirect admin users to admin dashboard
+    if (auth()->check() && auth()->user()->is_admin) {
+        return redirect()->route('admin.dashboard');
+    }
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

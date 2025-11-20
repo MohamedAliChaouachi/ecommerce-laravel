@@ -96,6 +96,12 @@ const cartCount = computed(() => page.props.cartCount || 0);
 
                                     <template #content>
                                         <DropdownLink
+                                            v-if="$page.props.auth.user.is_admin"
+                                            :href="route('admin.dashboard')"
+                                        >
+                                            Admin Panel
+                                        </DropdownLink>
+                                        <DropdownLink
                                             :href="route('profile.edit')"
                                         >
                                             Profile
