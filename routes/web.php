@@ -44,4 +44,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 });
 
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    
+    // Product management routes (placeholder for Step 3)
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+    
+    // Order management routes (placeholder for Step 4)
+    Route::get('orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
+    Route::patch('orders/{order}/status', [App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    
+    // Category management routes (placeholder for Step 5)
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    
+    // User management routes (placeholder for Step 6)
+    Route::get('users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+});
+
 require __DIR__.'/auth.php';
