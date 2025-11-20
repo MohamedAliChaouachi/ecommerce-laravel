@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, computed } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -37,6 +37,11 @@ const notes = ref('');
 // Validation errors
 const errors = ref({});
 
+// Helper function for demo images
+const getDemoImage = (item) => {
+    return `https://via.placeholder.com/80/4F46E5/FFFFFF?text=${encodeURIComponent(item.name.substring(0, 10))}`;
+};
+
 // Step validation
 const isStep1Valid = computed(() => {
     return shippingAddress.value.name &&
@@ -53,11 +58,11 @@ const isStep2Valid = computed(() => {
 // Navigation
 const nextStep = () => {
     if (currentStep.value === 1 && !isStep1Valid.value) {
-        alert('Veuillez remplir tous les champs obligatoires');
+        alert('Please fill in all required fields');
         return;
     }
     if (currentStep.value === 2 && !isStep2Valid.value) {
-        alert('Veuillez choisir un mode de paiement');
+        alert('Please choose a payment method');
         return;
     }
     if (currentStep.value < 3) {
@@ -108,14 +113,14 @@ const submitOrder = () => {
 
 <template>
     <AuthenticatedLayout>
-        <Head title="Paiement" />
+        <Head title="Checkout" />
 
         <div class="min-h-screen bg-gray-50 py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
                 <div class="mb-8">
-                    <h1 class="text-4xl font-bold text-gray-900">Paiement</h1>
-                    <p class="mt-2 text-gray-600">Complétez votre commande en quelques étapes</p>
+                    <h1 class="text-4xl font-bold text-gray-900">Checkout</h1>
+                    <p class="mt-2 text-gray-600">Complete your order in a few simple steps</p>
                 </div>
 
                 <!-- Step Indicator -->
@@ -129,7 +134,7 @@ const submitOrder = () => {
                             ]">
                                 1
                             </div>
-                            <span class="ml-2 text-sm font-medium text-gray-900">Livraison</span>
+                            <span class="ml-2 text-sm font-medium text-gray-900">Shipping</span>
                         </div>
                         
                         <!-- Line -->
@@ -146,7 +151,7 @@ const submitOrder = () => {
                             ]">
                                 2
                             </div>
-                            <span class="ml-2 text-sm font-medium text-gray-900">Paiement</span>
+                            <span class="ml-2 text-sm font-medium text-gray-900">Payment</span>
                         </div>
                         
                         <!-- Line -->
@@ -174,7 +179,7 @@ const submitOrder = () => {
                         <div class="bg-white rounded-lg shadow-sm p-8">
                             <!-- Step 1: Shipping Address -->
                             <div v-if="currentStep === 1">
-                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Adresse de livraison</h2>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Shipping Address</h2>
                                 
                                 <div class="space-y-4">
                                     <div>
@@ -229,7 +234,7 @@ const submitOrder = () => {
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            Téléphone *
+                                            Phone *
                                         </label>
                                         <input
                                             v-model="shippingAddress.phone"
@@ -243,7 +248,7 @@ const submitOrder = () => {
 
                             <!-- Step 2: Payment Method -->
                             <div v-if="currentStep === 2">
-                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Mode de paiement</h2>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Method</h2>
                                 
                                 <div class="space-y-4">
                                     <label class="flex items-start p-4 border-2 rounded-lg cursor-pointer transition-colors hover:border-indigo-500" :class="paymentMethod === 'cash_on_delivery' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200'">
@@ -254,8 +259,8 @@ const submitOrder = () => {
                                             class="mt-1 text-indigo-600 focus:ring-indigo-500"
                                         />
                                         <div class="ml-4">
-                                            <p class="font-semibold text-gray-900">Paiement à la livraison</p>
-                                            <p class="text-sm text-gray-600 mt-1">Payez en espèces lors de la réception de votre commande</p>
+                                            <p class="font-semibold text-gray-900">Cash on Delivery</p>
+                                            <p class="text-sm text-gray-600 mt-1">Pay with cash when you receive your order</p>
                                         </div>
                                     </label>
 
@@ -267,7 +272,7 @@ const submitOrder = () => {
                                             class="mt-1 text-indigo-600 focus:ring-indigo-500"
                                         />
                                         <div class="ml-4">
-                                            <p class="font-semibold text-gray-900">Carte bancaire</p>
+                                            <p class="font-semibold text-gray-900">Credit Card</p>
                                             <p class="text-sm text-gray-600 mt-1">Paiement sécurisé par carte de crédit</p>
                                             <p class="text-xs text-gray-500 mt-1">(Bientôt disponible)</p>
                                         </div>
@@ -289,11 +294,11 @@ const submitOrder = () => {
 
                             <!-- Step 3: Review Order -->
                             <div v-if="currentStep === 3">
-                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Confirmation de la commande</h2>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Confirmation</h2>
                                 
                                 <!-- Shipping Address Review -->
                                 <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-900 mb-2">Adresse de livraison</h3>
+                                    <h3 class="font-semibold text-gray-900 mb-2">Shipping Address</h3>
                                     <div class="bg-gray-50 p-4 rounded-lg text-sm text-gray-700">
                                         <p class="font-medium">{{ shippingAddress.name }}</p>
                                         <p>{{ shippingAddress.address }}</p>
@@ -304,17 +309,17 @@ const submitOrder = () => {
 
                                 <!-- Payment Method Review -->
                                 <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-900 mb-2">Mode de paiement</h3>
+                                    <h3 class="font-semibold text-gray-900 mb-2">Payment Method</h3>
                                     <div class="bg-gray-50 p-4 rounded-lg text-sm text-gray-700">
-                                        <p v-if="paymentMethod === 'cash_on_delivery'">Paiement à la livraison</p>
-                                        <p v-else-if="paymentMethod === 'credit_card'">Carte bancaire</p>
+                                        <p v-if="paymentMethod === 'cash_on_delivery'">Cash on Delivery</p>
+                                        <p v-else-if="paymentMethod === 'credit_card'">Credit Card</p>
                                         <p v-else-if="paymentMethod === 'paypal'">PayPal</p>
                                     </div>
                                 </div>
 
                                 <!-- Order Items Review -->
                                 <div>
-                                    <h3 class="font-semibold text-gray-900 mb-2">Articles commandés</h3>
+                                    <h3 class="font-semibold text-gray-900 mb-2">Ordered Items</h3>
                                     <div class="space-y-3">
                                         <div
                                             v-for="item in cart.items"
@@ -363,7 +368,7 @@ const submitOrder = () => {
                                     class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="isSubmitting">Traitement...</span>
-                                    <span v-else>Confirmer la commande</span>
+                                    <span v-else>Confirm Order</span>
                                 </button>
                             </div>
                         </div>
@@ -372,25 +377,25 @@ const submitOrder = () => {
                     <!-- Order Summary Sidebar -->
                     <div class="lg:col-span-1 mt-8 lg:mt-0">
                         <div class="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-                            <h2 class="text-xl font-bold text-gray-900 mb-6">Récapitulatif</h2>
+                            <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
                             
                             <div class="space-y-3 mb-6">
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Sous-total</span>
+                                    <span>Subtotal</span>
                                     <span class="font-semibold">{{ cart.subtotal.toFixed(2) }} DT</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600">
-                                    <span>TVA (10%)</span>
+                                    <span>Tax (10%)</span>
                                     <span class="font-semibold">{{ cart.tax.toFixed(2) }} DT</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Livraison</span>
+                                    <span>Shipping</span>
                                     <span class="font-semibold" :class="cart.shipping_cost === 0 ? 'text-green-600' : ''">
-                                        {{ cart.shipping_cost === 0 ? 'Gratuite' : cart.shipping_cost.toFixed(2) + ' DT' }}
+                                        {{ cart.shipping_cost === 0 ? 'Free' : cart.shipping_cost.toFixed(2) + ' DT' }}
                                     </span>
                                 </div>
                                 <div v-if="cart.shipping_cost === 0" class="text-xs text-green-600">
-                                    🎉 Livraison gratuite pour les commandes > 100 DT
+                                    🎉 Free shipping for orders > 100 DT
                                 </div>
                                 <div class="border-t pt-3">
                                     <div class="flex justify-between text-xl font-bold text-gray-900">
@@ -400,25 +405,10 @@ const submitOrder = () => {
                                 </div>
                             </div>
 
-                            <div class="border-t pt-6 space-y-3">
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Paiement sécurisé</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Livraison rapide</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Service client 24/7</span>
-                                </div>
+                            <div class="border-t pt-6 space-y-3 text-sm text-gray-600">
+                                <div>• Secure payment</div>
+                                <div>• Fast shipping</div>
+                                <div>• 24/7 customer service</div>
                             </div>
                         </div>
                     </div>

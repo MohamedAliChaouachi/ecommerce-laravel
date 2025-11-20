@@ -1,5 +1,5 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
@@ -23,7 +23,7 @@ const updateQuantity = (productId, quantity) => {
 };
 
 const removeItem = (productId) => {
-    if (confirm('Êtes-vous sûr de vouloir retirer ce produit ?')) {
+    if (confirm('Are you sure you want to remove this product?')) {
         router.delete(route('cart.remove', productId), {
             preserveScroll: true
         });
@@ -31,7 +31,7 @@ const removeItem = (productId) => {
 };
 
 const clearCart = () => {
-    if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+    if (confirm('Are you sure you want to empty your cart?')) {
         router.delete(route('cart.clear'));
     }
 };
@@ -47,9 +47,9 @@ const getImageUrl = (imagePath) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Header -->
                 <div class="mb-8">
-                    <h1 class="text-4xl font-bold text-gray-900">Mon Panier</h1>
+                    <h1 class="text-4xl font-bold text-gray-900">My Cart</h1>
                     <p class="mt-2 text-gray-600">
-                        {{ cart.count }} {{ cart.count > 1 ? 'articles' : 'article' }} dans votre panier
+                        {{ cart.count }} {{ cart.count > 1 ? 'items' : 'item' }} in your cart
                     </p>
                 </div>
 
@@ -63,7 +63,7 @@ const getImageUrl = (imagePath) => {
                                 @click="clearCart"
                                 class="text-sm text-red-600 hover:text-red-700 font-medium"
                             >
-                                Vider le panier
+                                Empty Cart
                             </button>
                         </div>
 
@@ -74,15 +74,6 @@ const getImageUrl = (imagePath) => {
                             class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow"
                         >
                             <div class="flex items-start space-x-4">
-                                <!-- Product Image -->
-                                <div class="flex-shrink-0">
-                                    <img
-                                        :src="getImageUrl(item.image_path)"
-                                        :alt="item.name"
-                                        class="w-24 h-24 object-cover rounded-lg"
-                                    />
-                                </div>
-
                                 <!-- Product Info -->
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-semibold text-gray-900">
@@ -97,7 +88,7 @@ const getImageUrl = (imagePath) => {
                                         {{ parseFloat(item.price).toFixed(2) }} DT
                                     </p>
                                     <p class="mt-1 text-sm text-gray-500">
-                                        Stock disponible: {{ item.stock }}
+                                        Available stock: {{ item.stock }}
                                     </p>
                                 </div>
 
@@ -108,11 +99,9 @@ const getImageUrl = (imagePath) => {
                                         <button
                                             @click="updateQuantity(item.id, item.quantity - 1)"
                                             :disabled="item.quantity <= 1"
-                                            class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-indigo-600 hover:text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            class="px-3 py-1 rounded border-2 border-gray-300 hover:border-indigo-600 hover:text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                                            </svg>
+                                            -
                                         </button>
                                         <span class="w-12 text-center font-semibold text-gray-900">
                                             {{ item.quantity }}
@@ -120,11 +109,9 @@ const getImageUrl = (imagePath) => {
                                         <button
                                             @click="updateQuantity(item.id, item.quantity + 1)"
                                             :disabled="item.quantity >= item.stock"
-                                            class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-indigo-600 hover:text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            class="px-3 py-1 rounded border-2 border-gray-300 hover:border-indigo-600 hover:text-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                            </svg>
+                                            +
                                         </button>
                                     </div>
 
@@ -136,12 +123,9 @@ const getImageUrl = (imagePath) => {
                                     <!-- Remove Button -->
                                     <button
                                         @click="removeItem(item.id)"
-                                        class="text-sm text-red-600 hover:text-red-700 font-medium flex items-center space-x-1"
+                                        class="text-sm text-red-600 hover:text-red-700 font-medium"
                                     >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        <span>Retirer</span>
+                                        Remove
                                     </button>
                                 </div>
                             </div>
@@ -151,16 +135,16 @@ const getImageUrl = (imagePath) => {
                     <!-- Order Summary -->
                     <div class="lg:col-span-1 mt-8 lg:mt-0">
                         <div class="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-                            <h2 class="text-2xl font-bold text-gray-900 mb-6">Résumé</h2>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6">Summary</h2>
                             
                             <div class="space-y-4 mb-6">
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Sous-total</span>
+                                    <span>Subtotal</span>
                                     <span class="font-semibold">{{ cart.subtotal.toFixed(2) }} DT</span>
                                 </div>
                                 <div class="flex justify-between text-gray-600">
-                                    <span>Livraison</span>
-                                    <span class="font-semibold text-green-600">Gratuite</span>
+                                    <span>Shipping</span>
+                                    <span class="font-semibold text-green-600">Free</span>
                                 </div>
                                 <div class="border-t pt-4">
                                     <div class="flex justify-between text-xl font-bold text-gray-900">
@@ -170,39 +154,33 @@ const getImageUrl = (imagePath) => {
                                 </div>
                             </div>
 
-                            <button
-                                class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                            <Link
+                                v-if="auth.user"
+                                :href="route('checkout.index')"
+                                class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center"
                             >
-                                Procéder au paiement
-                            </button>
+                                Proceed to Checkout
+                            </Link>
+                            <Link
+                                v-else
+                                :href="route('login')"
+                                class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center"
+                            >
+                                Login to Checkout
+                            </Link>
 
                             <a
                                 :href="route('products.index')"
                                 class="block w-full text-center mt-4 text-indigo-600 hover:text-indigo-700 font-medium"
                             >
-                                ← Continuer vos achats
+                                ← Continue shopping
                             </a>
 
                             <!-- Trust Badges -->
-                            <div class="mt-6 pt-6 border-t space-y-3">
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Paiement sécurisé</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Livraison gratuite</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600">
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Retour sous 14 jours</span>
-                                </div>
+                            <div class="mt-6 pt-6 border-t space-y-3 text-sm text-gray-600">
+                                <div>• Secure payment</div>
+                                <div>• Free shipping</div>
+                                <div>• 14-day returns</div>
                             </div>
                         </div>
                     </div>
@@ -210,16 +188,13 @@ const getImageUrl = (imagePath) => {
 
                 <!-- Empty Cart State -->
                 <div v-else class="text-center py-16">
-                    <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                    <h2 class="mt-6 text-3xl font-bold text-gray-900">Votre panier est vide</h2>
-                    <p class="mt-2 text-gray-600">Commencez vos achats dès maintenant !</p>
+                    <h2 class="text-3xl font-bold text-gray-900">Your cart is empty</h2>
+                    <p class="mt-2 text-gray-600">Start shopping now!</p>
                     <a
                         :href="route('products.index')"
                         class="inline-block mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
                     >
-                        Découvrir nos produits
+                        Discover our products
                     </a>
                 </div>
             </div>

@@ -61,14 +61,14 @@ const addToCart = () => {
                     :href="route('home')"
                     class="text-gray-500 hover:text-gray-700"
                 >
-                    Accueil
+                    Home
                 </Link>
                 <span class="mx-2 text-gray-400">/</span>
                 <Link
                     :href="route('products.index')"
                     class="text-gray-500 hover:text-gray-700"
                 >
-                    Produits
+                    Products
                 </Link>
                 <span class="mx-2 text-gray-400">/</span>
                 <Link
@@ -82,16 +82,7 @@ const addToCart = () => {
             </nav>
 
             <!-- Product Details -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                <!-- Product Image -->
-                <div class="bg-gray-100 rounded-lg overflow-hidden">
-                    <img
-                        :src="product.image_path || '/images/placeholder.jpg'"
-                        :alt="product.name"
-                        class="w-full h-96 object-cover object-center"
-                    />
-                </div>
-
+            <div class="mb-16">
                 <!-- Product Info -->
                 <div>
                     <h1 class="text-3xl font-bold text-gray-900 mb-4">
@@ -126,45 +117,23 @@ const addToCart = () => {
                     <div class="mb-6">
                         <div
                             v-if="product.stock > 0"
-                            class="flex items-center text-green-600"
+                            class="text-green-600"
                         >
-                            <svg
-                                class="w-5 h-5 mr-2"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
                             <span class="font-medium">
-                                En stock ({{ product.stock }} disponible(s))
+                                In stock ({{ product.stock }} available)
                             </span>
                         </div>
                         <div
                             v-else
-                            class="flex items-center text-red-600"
+                            class="text-red-600"
                         >
-                            <svg
-                                class="w-5 h-5 mr-2"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
-                            <span class="font-medium">Rupture de stock</span>
+                            <span class="font-medium">Out of stock</span>
                         </div>
                         <div
                             v-if="product.stock > 0 && product.stock < 10"
                             class="mt-2 text-sm text-orange-600"
                         >
-                            ⚠️ Stock limité - Il ne reste que {{ product.stock }} article(s)
+                            Limited stock - Only {{ product.stock }} item(s) remaining
                         </div>
                     </div>
 
@@ -174,7 +143,7 @@ const addToCart = () => {
                         class="mb-6"
                     >
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Quantité
+                            Quantity
                         </label>
                         <div class="flex items-center space-x-4">
                             <div class="flex items-center border border-gray-300 rounded-md">
@@ -205,8 +174,8 @@ const addToCart = () => {
                                 :disabled="isAddingToCart"
                                 class="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <span v-if="isAddingToCart">Ajout en cours...</span>
-                                <span v-else>Ajouter au panier</span>
+                                <span v-if="isAddingToCart">Adding...</span>
+                                <span v-else>Add to Cart</span>
                             </button>
                         </div>
                     </div>
@@ -217,7 +186,7 @@ const addToCart = () => {
                         class="bg-red-50 border border-red-200 rounded-md p-4"
                     >
                         <p class="text-red-800 font-medium">
-                            Ce produit est actuellement en rupture de stock.
+                            This product is currently out of stock.
                         </p>
                     </div>
                 </div>
@@ -229,7 +198,7 @@ const addToCart = () => {
                 class="mt-16"
             >
                 <h2 class="text-2xl font-bold text-gray-900 mb-6">
-                    Produits similaires
+                    Related Products
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <ProductCard

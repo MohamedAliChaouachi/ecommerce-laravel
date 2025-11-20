@@ -48,16 +48,16 @@ const clearFilters = () => {
 
 <template>
     <component :is="auth.user ? AuthenticatedLayout : GuestLayout">
-        <Head title="Produits" />
+        <Head title="Products" />
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <!-- Page Header -->
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">
-                    Tous les produits
+                    All Products
                 </h1>
                 <p class="text-gray-600">
-                    Découvrez notre catalogue complet
+                    Discover our complete catalog
                 </p>
             </div>
 
@@ -70,13 +70,13 @@ const clearFilters = () => {
                             for="search"
                             class="block text-sm font-medium text-gray-700 mb-2"
                         >
-                            Rechercher
+                            Search
                         </label>
                         <input
                             id="search"
                             v-model="search"
                             type="text"
-                            placeholder="Nom du produit..."
+                            placeholder="Product name..."
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         />
                     </div>
@@ -87,7 +87,7 @@ const clearFilters = () => {
                             for="category"
                             class="block text-sm font-medium text-gray-700 mb-2"
                         >
-                            Catégorie
+                            Category
                         </label>
                         <select
                             id="category"
@@ -95,7 +95,7 @@ const clearFilters = () => {
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         >
                             <option value="">
-                                Toutes les catégories
+                                All categories
                             </option>
                             <option
                                 v-for="category in categories"
@@ -113,7 +113,7 @@ const clearFilters = () => {
                             for="sort"
                             class="block text-sm font-medium text-gray-700 mb-2"
                         >
-                            Trier par
+                            Sort by
                         </label>
                         <select
                             id="sort"
@@ -121,16 +121,16 @@ const clearFilters = () => {
                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         >
                             <option value="latest">
-                                Plus récent
+                                Latest
                             </option>
                             <option value="name">
-                                Nom (A-Z)
+                                Name (A-Z)
                             </option>
                             <option value="price_asc">
-                                Prix croissant
+                                Price: Low to High
                             </option>
                             <option value="price_desc">
-                                Prix décroissant
+                                Price: High to Low
                             </option>
                         </select>
                     </div>
@@ -145,14 +145,14 @@ const clearFilters = () => {
                         @click="clearFilters"
                         class="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
                     >
-                        Effacer les filtres
+                        Clear filters
                     </button>
                 </div>
             </div>
 
             <!-- Results Count -->
             <div class="mb-4 text-sm text-gray-600">
-                {{ products.total }} produit(s) trouvé(s)
+                {{ products.total }} product(s) found
             </div>
 
             <!-- Products Grid -->
@@ -172,24 +172,11 @@ const clearFilters = () => {
                 v-else
                 class="text-center py-12"
             >
-                <svg
-                    class="mx-auto h-12 w-12 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                    />
-                </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900">
-                    Aucun produit trouvé
+                <h3 class="text-sm font-medium text-gray-900">
+                    No products found
                 </h3>
                 <p class="mt-1 text-sm text-gray-500">
-                    Essayez de modifier vos filtres de recherche
+                    Try adjusting your search filters
                 </p>
             </div>
 
@@ -204,26 +191,26 @@ const clearFilters = () => {
                         :href="products.prev_page_url"
                         class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                     >
-                        Précédent
+                        Previous
                     </Link>
                     <Link
                         v-if="products.next_page_url"
                         :href="products.next_page_url"
                         class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                     >
-                        Suivant
+                        Next
                     </Link>
                 </div>
                 <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                     <div>
                         <p class="text-sm text-gray-700">
-                            Affichage de
+                            Showing
                             <span class="font-medium">{{ products.from }}</span>
-                            à
+                            to
                             <span class="font-medium">{{ products.to }}</span>
-                            sur
+                            of
                             <span class="font-medium">{{ products.total }}</span>
-                            résultats
+                            results
                         </p>
                     </div>
                     <div>
@@ -233,18 +220,8 @@ const clearFilters = () => {
                                 :href="products.prev_page_url"
                                 class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                             >
-                                <span class="sr-only">Précédent</span>
-                                <svg
-                                    class="h-5 w-5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                        clip-rule="evenodd"
-                                    />
-                                </svg>
+                                <span class="sr-only">Previous</span>
+                                «
                             </Link>
 
                             <Link
@@ -265,18 +242,8 @@ const clearFilters = () => {
                                 :href="products.next_page_url"
                                 class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                             >
-                                <span class="sr-only">Suivant</span>
-                                <svg
-                                    class="h-5 w-5"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                                        clip-rule="evenodd"
-                                    />
-                                </svg>
+                                <span class="sr-only">Next</span>
+                                »
                             </Link>
                         </nav>
                     </div>
